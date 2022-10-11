@@ -2,7 +2,6 @@ package com.crud.tasks.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.crud.tasks.domain.TaskDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,8 @@ public class TaskController {
         return new ArrayList<>();
     }
 
-    @GetMapping
-    public TaskDto getTask(Long taskId) {
+    @GetMapping(value = "{taskId}")
+    public TaskDto getTask(@PathVariable Long taskId) {
         return new TaskDto(1L, "test title", "test description");
     }
 
@@ -26,12 +25,11 @@ public class TaskController {
     }
 
     @PutMapping
-    public TaskDto updateTask(TaskDto task) {
+    public TaskDto updateTask(@RequestBody TaskDto task) {
         return new TaskDto(1L, "Edited title", "Edited description");
     }
 
-    @PostMapping
-    public void createTask(TaskDto task) {
-
+    @PostMapping(path = "/newtask", consumes = {"application/json"})
+    public void createTask(@RequestBody TaskDto taskDto) {
     }
 }
