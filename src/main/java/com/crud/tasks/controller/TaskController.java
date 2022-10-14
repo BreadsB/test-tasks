@@ -25,9 +25,18 @@ public class TaskController {
         return mapper.mapToTaskDtoList(taskList);
     }
 
-    @GetMapping(value = "{taskId}")
-    public TaskDto getTask(@PathVariable Long taskId) {
-        return new TaskDto(1L, "test title", "test description");
+    @GetMapping(value = "/{taskId}")
+    public TaskDto getTask(@PathVariable Long taskId) throws Exception {
+
+        TaskDto taskDto = new TaskDto(taskId, "error", "error");
+
+        try {
+            Task task = service.getTaskById(taskId);
+            taskDto = mapper.mapToTaskDto(task);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return taskDto;
     }
 
     @DeleteMapping
