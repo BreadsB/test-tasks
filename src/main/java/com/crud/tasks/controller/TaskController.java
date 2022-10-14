@@ -2,16 +2,27 @@ package com.crud.tasks.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
+import com.crud.tasks.service.DbService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/tasks")
+@RequiredArgsConstructor
 public class TaskController {
+
+    private final DbService service;
+    private final TaskMapper mapper;
 
     @GetMapping
     public List<TaskDto> getTasks() {
-        return new ArrayList<>();
+        List<Task> taskList = service.getAllTasks();
+        return mapper.mapToTaskDtoList(taskList);
     }
 
     @GetMapping(value = "{taskId}")
